@@ -1,0 +1,360 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  password    String
+  nom         String?
+  prenom      String?
+  role        Role     @default(PAROISSIEN)
+  paroisse    Paroisse? @relation(fields: [paroisseId], references: [id])
+  paroisseId  String?
+  permissions AdminPermission[]
+  actualites  Actualite[]
+  membre      Membre?  // Lien optionnel vers un membre
+  pretre      Pretre?  // Lien optionnel vers un prêtre
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Paroisse {
+  id          String   @id @default(cuid())
+  nom         String
+  adresse     String?
+  ville       String?
+  codePostal  String?
+  telephone   String?
+  email       String?
+  subdomain   String   @unique // ex: saint-pierre pour saint-pierre.imamissio.com
+  configSite  Json?    // Configuration du site (couleurs, images, textes uniquement)
+  templateId  String   @default("default")
+  plan        Plan     @default(GRATUIT)
+  actif       Boolean  @default(true)
+  
+  // Relations
+  users       User[]
+  pretres     Pretre[]
+  membres     Membre[]
+  conseils    Conseil[]
+  secteurs    Secteur[]
+  actualites  Actualite[]
+  evenements  Evenement[]
+  horaires    Horaire[]
+  sacrements  Sacrement[]
+  sections    Section[]
+  projets     Projet[]
+  activites   Activite[]  // NOUVELLE RELATION
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("paroisses")
+}
+
+model Activite {
+  id          String   @id @default(cuid())
+  titre       String
+  description String?
+  image       String?
+  
+  // Informations pratiques
+  horaires    String?  // "Mercredi 14h-16h"
+  lieu        String?
+  ageMin      Int?     // Age minimum
+  ageMax      Int?     // Age maximum
+  contact     String?  // Email/téléphone responsable
+  responsable String?  // Nom du responsable
+  infosComplementaires String? // Informations supplémentaires
+  
+  // Relations
+  section     Section  @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  sectionId   String   // Lien vers la catégorie (jeunesse, catéchèse, etc.)
+  paroisse    Paroisse @relation(fields: [paroisseId], references: [id], onDelete: Cascade)
+  paroisseId  String
+  
+  // Gestion
+  actif       Boolean  @default(true)
+  ordre       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("activites")
+}
+
+model Projet {
+  id          String   @id @default(cuid())
+  titre       String
+  description String
+  image       String?
+  objectif    Int      // Montant objectif en euros
+  theme       String   // "vie-paroissiale", "charite", "projets", etc.
+  paroisse    Paroisse @relation(fields: [paroisseId], references: [id], onDelete: Cascade)
+  paroisseId  String
+  actif       Boolean  @default(true)
+  alaune      Boolean  @default(false) // Pour marquer les projets "à la une"
+  ordre       Int      @default(0) // Pour l'ordre d'affichage
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("projets")
+}
+
+model Pretre {
+  id          String   @id @default(cuid())
+  nom         String
+  prenom      String?
+  fonction    String   // "Curé", "Vicaire", "Prêtre auxiliaire", etc.
+  photo       String?
+  email       String?
+  telephone   String?
+  bio         String?  // Biographie
+  paroisse    Paroisse @relation(fields: [paroisseId], references: [id], onDelete: Cascade)
+  paroisseId  String
+  userId      String?  @unique // Lien optionnel vers User si compte
+  user        User?    @relation(fields: [userId], references: [id])
+  ordre       Int      @default(0) // Pour l'ordre d'affichage
+  actif       Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("pretres")
+}
+
+model Membre {
+  id          String   @id @default(cuid())
+  nom         String
+  prenom      String
+  email       String?
+  telephone   String?
+  photo       String?
+  paroisse    Paroisse @relation(fields: [paroisseId], references: [id], onDelete: Cascade)
+  paroisseId  String
+  userId      String?  @unique // Lien optionnel vers User si compte
+  user        User?    @relation(fields: [userId], references: [id])
+  
+  // Relations
+  appartenances AppartenanceConseil[]
+  responsabilites ResponsabiliteSecteur[]
+  
+  actif       Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("membres")
+}
+
+model Conseil {
+  id          String   @id @default(cuid())
+  nom         String   // "Conseil économique", "Conseil pastoral", etc.
+  description String?
+  type        String   // "economique", "pastoral", "custom"
+  paroisse    Paroisse @relation(fields: [paroisseId], references: [id], onDelete: Cascade)
+  paroisseId  String
+  
+  membres     AppartenanceConseil[]
+  
+  ordre       Int      @default(0) // Pour l'ordre d'affichage
+  actif       Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("conseils")
+}
+
+model AppartenanceConseil {
+  id        String   @id @default(cuid())
+  membre    Membre   @relation(fields: [membreId], references: [id], onDelete: Cascade)
+  membreId  String
+  conseil   Conseil  @relation(fields: [conseilId], references: [id], onDelete: Cascade)
+  conseilId String
+  fonction  String?  // "Président", "Trésorier", "Secrétaire", "Membre"
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([membreId, conseilId])
+  @@map("appartenances_conseils")
+}
+
+model Secteur {
+  id          String   @id @default(cuid())
+  nom         String   // "Liturgie et musique", "Catéchèse", "Charité", etc.
+  description String?
+  couleur     String?  // Couleur pour l'affichage (hex)
+  icone       String?  // Nom de l'icône
+  paroisse    Paroisse @relation(fields: [paroisseId], references: [id], onDelete: Cascade)
+  paroisseId  String
+  
+  responsables ResponsabiliteSecteur[]
+  
+  ordre       Int      @default(0) // Pour l'ordre d'affichage
+  actif       Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("secteurs")
+}
+
+model ResponsabiliteSecteur {
+  id        String   @id @default(cuid())
+  membre    Membre   @relation(fields: [membreId], references: [id], onDelete: Cascade)
+  membreId  String
+  secteur   Secteur  @relation(fields: [secteurId], references: [id], onDelete: Cascade)
+  secteurId String
+  fonction  String   @default("Responsable") // "Responsable", "Responsable adjoint", "Coordinateur"
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([membreId, secteurId, fonction]) // Un membre peut avoir plusieurs fonctions dans le même secteur
+  @@map("responsabilites_secteurs")
+}
+
+model AdminPermission {
+  id                  String   @id @default(cuid())
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId              String
+  sectionsAutorisees  String   // JSON string: "jeunesse,musique,solidarite"
+  permissions         String   // JSON string: "read,write,delete"
+  createdAt           DateTime @default(now())
+
+  @@map("admin_permissions")
+}
+
+model Section {
+  id              String   @id @default(cuid())
+  nom             String   // "jeunesse", "musique", "solidarite", etc.
+  titre           String   // Titre affiché
+  description     String?
+  couleur         String?  // Couleur de la catégorie (hex)
+  icone           String?  // Nom de l'icône pour la catégorie
+  image           String?  // Image de header pour la page catégorie
+  paroisse        Paroisse @relation(fields: [paroisseId], references: [id], onDelete: Cascade)
+  paroisseId      String
+  adminResponsable String? // userId de l'admin responsable
+  contenu         Json?    // Contenu flexible de la section
+  activites       Activite[] // NOUVELLE RELATION
+  actif           Boolean  @default(true)
+  ordre           Int      @default(0) // Pour l'ordre d'affichage
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("sections")
+}
+
+model Actualite {
+  id          String   @id @default(cuid())
+  titre       String
+  contenu     String
+  image       String?
+  paroisse    Paroisse @relation(fields: [paroisseId], references: [id], onDelete: Cascade)
+  paroisseId  String
+  auteur      User     @relation(fields: [auteurId], references: [id])
+  auteurId    String
+  publiee     Boolean  @default(false)
+  datePubli   DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("actualites")
+}
+
+model Evenement {
+  id          String   @id @default(cuid())
+  titre       String
+  description String?
+  dateDebut   DateTime
+  dateFin     DateTime?
+  lieu        String?
+  paroisse    Paroisse @relation(fields: [paroisseId], references: [id], onDelete: Cascade)
+  paroisseId  String
+  sectionId   String?  // Lié à une section spécifique
+  maxParticipants Int?
+  inscriptions Json?   // Liste des inscrits
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("evenements")
+}
+
+model Horaire {
+  id          String   @id @default(cuid())
+  typeOffice  String   // "messe", "adoration", "confession", etc.
+  jourSemaine Int      // 0=dimanche, 1=lundi, etc.
+  heure       String   // "09:00", "18:30", etc.
+  description String?
+  paroisse    Paroisse @relation(fields: [paroisseId], references: [id], onDelete: Cascade)
+  paroisseId  String
+  actif       Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("horaires")
+}
+
+model Sacrement {
+  id          String   @id @default(cuid())
+  type        String   // "bapteme", "mariage", "confession", etc.
+  nom         String   // Nom affiché
+  description String?
+  contact     String?  // Qui contacter
+  paroisse    Paroisse @relation(fields: [paroisseId], references: [id], onDelete: Cascade)
+  paroisseId  String
+  actif       Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("sacrements")
+}
+
+model Don {
+  id                    String    @id @default(cuid())
+  projetId              String    // ID du projet (référence vers table Projet maintenant)
+  montant               Int       // En euros
+  statut                String    @default("en_attente") // en_attente, complete, echec
+  anonyme               Boolean   @default(false)
+  message               String?
+  stripeSessionId       String?   @unique
+  stripePaymentIntentId String?
+  donateur              Donateur?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@map("dons")
+}
+
+model Donateur {
+  id        String   @id @default(cuid())
+  nom       String
+  prenom    String
+  email     String
+  telephone String?
+  don       Don      @relation(fields: [donId], references: [id], onDelete: Cascade)
+  donId     String   @unique
+  createdAt DateTime @default(now())
+
+  @@map("donateurs")
+}
+
+enum Role {
+  SUPER_ADMIN      // Gère toute la plateforme
+  PAROISSE_ADMIN   // Admin principal d'une paroisse
+  ADMIN_SPECIALISE // Admin d'une section spécifique
+  PAROISSIEN       // Utilisateur normal
+}
+
+enum Plan {
+  GRATUIT
+  PREMIUM
+  ENTERPRISE
+}
