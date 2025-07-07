@@ -3,8 +3,7 @@
 // ============================================================================
 import { NextResponse } from 'next/server'
 import { prisma } from '../../../lib/prisma'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '../auth/[...nextauth]/route'
+import { getServerAuth } from '../../../lib/auth'
 
 // GET - Récupérer toutes les activités d'une paroisse ou d'une section
 export async function GET(request) {
@@ -59,8 +58,10 @@ export async function GET(request) {
 // POST - Créer une nouvelle activité
 export async function POST(request) {
   try {
-    const session = await getServerSession(authOptions)
-    if (!session) {
+    // Utiliser getServerAuth au lieu de NextAuth
+    const user = await getServerAuth()
+    
+    if (!user) {
       return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
     }
 
@@ -82,11 +83,6 @@ export async function POST(request) {
     } = data
 
     // Vérifier que l'utilisateur a les droits sur cette paroisse
-    const user = await prisma.user.findUnique({
-      where: { id: session.user.id },
-      include: { paroisse: true }
-    })
-
     if (!user || user.paroisseId !== paroisseId) {
       return NextResponse.json({ error: 'Non autorisé' }, { status: 403 })
     }
@@ -123,6 +119,112 @@ export async function POST(request) {
     console.error('Erreur lors de la création de l\'activité:', error)
     return NextResponse.json(
       { error: 'Erreur lors de la création de l\'activité' },
+      { status: 500 }
+    )
+  }
+}
+
+// PUT - Mettre à jour une activité
+export async function PUT(request) {
+  try {
+    const user = await getServerAuth()
+    
+    if (!user) {
+      return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
+    }
+
+    const data = await request.json()
+    const { id, ...updateData } = data
+
+    if (!id) {
+      return NextResponse.json({ error: 'ID de l\'activité requis' }, { status: 400 })
+    }
+
+    // Vérifier que l'activité existe et appartient à la paroisse de l'utilisateur
+    const existingActivite = await prisma.activite.findUnique({
+      where: { id },
+      select: { paroisseId: true }
+    })
+
+    if (!existingActivite) {
+      return NextResponse.json({ error: 'Activité non trouvée' }, { status: 404 })
+    }
+
+    if (existingActivite.paroisseId !== user.paroisseId) {
+      return NextResponse.json({ error: 'Non autorisé' }, { status: 403 })
+    }
+
+    // Mettre à jour l'activité
+    const activite = await prisma.activite.update({
+      where: { id },
+      data: {
+        ...updateData,
+        ageMin: updateData.ageMin ? parseInt(updateData.ageMin) : null,
+        ageMax: updateData.ageMax ? parseInt(updateData.ageMax) : null,
+        ordre: updateData.ordre ? parseInt(updateData.ordre) : undefined
+      },
+      include: {
+        section: true,
+        paroisse: {
+          select: {
+            nom: true,
+            subdomain: true
+          }
+        }
+      }
+    })
+
+    return NextResponse.json(activite)
+  } catch (error) {
+    console.error('Erreur lors de la mise à jour de l\'activité:', error)
+    return NextResponse.json(
+      { error: 'Erreur lors de la mise à jour de l\'activité' },
+      { status: 500 }
+    )
+  }
+}
+
+// DELETE - Supprimer une activité (soft delete)
+export async function DELETE(request) {
+  try {
+    const user = await getServerAuth()
+    
+    if (!user) {
+      return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
+    }
+
+    const { searchParams } = new URL(request.url)
+    const id = searchParams.get('id')
+
+    if (!id) {
+      return NextResponse.json({ error: 'ID de l\'activité requis' }, { status: 400 })
+    }
+
+    // Vérifier que l'activité existe et appartient à la paroisse de l'utilisateur
+    const existingActivite = await prisma.activite.findUnique({
+      where: { id },
+      select: { paroisseId: true }
+    })
+
+    if (!existingActivite) {
+      return NextResponse.json({ error: 'Activité non trouvée' }, { status: 404 })
+    }
+
+    if (existingActivite.paroisseId !== user.paroisseId) {
+      return NextResponse.json({ error: 'Non autorisé' }, { status: 403 })
+    }
+
+    // Soft delete : marquer comme inactive
+    await prisma.activite.update({
+      where: { id },
+      data: { actif: false }
+    })
+
+    return NextResponse.json({ success: true, message: 'Activité supprimée' })
+  } catch (error) {
+    console.error('Erreur lors de la suppression de l\'activité:', error)
+    return NextResponse.json(
+      { error: 'Erreur lors de la suppression de l\'activité' },
       { status: 500 }
     )
   }
