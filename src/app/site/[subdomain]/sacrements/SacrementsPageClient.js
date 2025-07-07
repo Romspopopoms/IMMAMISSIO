@@ -2,16 +2,16 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Menu, X, Heart, Droplets, Cross, Bible, Ring, Sparkles, HandHeart, Upload, ArrowRight, Star, Church, BookOpen } from 'lucide-react'
+import { Menu, X, Heart, Droplets, Cross, Book, CircleEllipsis, Sparkles, HandHeart, Upload, ArrowRight, Star, Church, BookOpen } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import { useEditable } from '../../../../hooks/useEditable'
 import EditBar from '../../../../components/EditBar'
 
 const sacrementIcons = {
   bapteme: Droplets,
-  eucharistie: Bible,
+  eucharistie: Book,
   confirmation: Sparkles,
-  mariage: Ring,
+  mariage: CircleEllipsis,
   reconciliation: Heart,
   malades: HandHeart,
   ordination: Cross
