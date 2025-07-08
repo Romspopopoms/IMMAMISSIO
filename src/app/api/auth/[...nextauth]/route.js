@@ -8,7 +8,7 @@ const authOptions = {
   providers: [
     CredentialsProvider({
       name: 'credentials', 
-      credentials: {
+      credentials: { 
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' }
       },
