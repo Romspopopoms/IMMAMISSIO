@@ -7,7 +7,7 @@ import { prisma } from '../../../../lib/prisma'
 const authOptions = {
   providers: [
     CredentialsProvider({
-      name: 'credentials',
+      name: 'credentials', 
       credentials: {
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' }
