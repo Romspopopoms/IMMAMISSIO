@@ -12,7 +12,7 @@ function isValidEmail(email) {
   return emailRegex.test(email)
 }
 
-// Fonction pour obtenir l'URL de base
+// Fonction pour obtenir l'URL de base   
 function getBaseUrl() {
   if (process.env.NODE_ENV === 'development') {
     return 'http://localhost:3000'

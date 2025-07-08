@@ -6,6 +6,8 @@ import { getServerAuth, hasPermission } from '../../../lib/auth'
 import { prisma } from '../../../lib/prisma'
 import DashboardDonsClient from './DashboardDonsClient'
 
+export const dynamic = 'force-dynamic'
+
 /**
  * Charge tous les projets avec leurs statistiques de dons
  */

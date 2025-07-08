@@ -6,6 +6,9 @@ import { getServerAuth } from '../../lib/auth'
 import { prisma } from '../../lib/prisma'
 import DashboardClient from './DashboardClient'
 
+// ✅ IMPORTANT: Force le rendu dynamique pour les pages avec authentification
+export const dynamic = 'force-dynamic'
+
 /**
  * Charge les statistiques de la paroisse
  */

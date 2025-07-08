@@ -6,6 +6,8 @@ import { getServerAuth, hasPermission } from '../../../lib/auth'
 import { prisma } from '../../../lib/prisma'
 import ActivitesDashboardClient from './ActivitesDashboardClient'
 
+export const dynamic = 'force-dynamic'
+
 /**
  * Charge les données des activités et sections
  */

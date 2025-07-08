@@ -6,6 +6,8 @@ import { getServerAuth, hasPermission } from '../../../../lib/auth'
 import { prisma } from '../../../../lib/prisma'
 import SecteursManagementClient from './SecteursManagementClient'
 
+export const dynamic = 'force-dynamic'
+
 /**
  * Charge les secteurs avec leurs responsables
  */

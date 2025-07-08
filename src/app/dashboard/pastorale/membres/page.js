@@ -6,6 +6,8 @@ import { getServerAuth, hasPermission } from '../../../../lib/auth'
 import { prisma } from '../../../../lib/prisma'
 import MembresManagementClient from './MembresManagementClient'
 
+export const dynamic = 'force-dynamic'
+
 /**
  * Charge les membres avec leurs relations
  */

@@ -42,6 +42,8 @@ export default function EvenementsPage() {
   const [message, setMessage] = useState('')
   const [messageType, setMessageType] = useState('')
 
+  export const dynamic = 'force-dynamic'
+
   // Vérifier l'authentification
   const checkAuth = async () => {
     try {

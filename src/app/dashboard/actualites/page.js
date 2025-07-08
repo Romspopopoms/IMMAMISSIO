@@ -27,6 +27,8 @@ import {
   Image as ImageIcon
 } from 'lucide-react'
 
+export const dynamic = 'force-dynamic'
+
 export default function ActualitesPage() {
   const router = useRouter()
   const [user, setUser] = useState(null)
@@ -40,6 +42,7 @@ export default function ActualitesPage() {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [itemToDelete, setItemToDelete] = useState(null)
 
+  
   // Vérifier l'authentification
   const checkAuth = async () => {
     try {

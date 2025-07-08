@@ -29,6 +29,8 @@ import {
   Settings
 } from 'lucide-react'
 
+export const dynamic = 'force-dynamic'
+
 const joursSemaine = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi']
 const typesOffice = [
   { value: 'messe', label: 'Messe', emoji: '🍞', color: 'from-blue-500 to-cyan-500' },
