@@ -29,6 +29,8 @@ import {
   ChevronDown
 } from 'lucide-react'
 
+  export const dynamic = 'force-dynamic'
+
 export default function EvenementsPage() {
   const router = useRouter()
   const [user, setUser] = useState(null)
@@ -41,8 +43,6 @@ export default function EvenementsPage() {
   const [evenementToDelete, setEvenementToDelete] = useState(null)
   const [message, setMessage] = useState('')
   const [messageType, setMessageType] = useState('')
-
-  export const dynamic = 'force-dynamic'
 
   // Vérifier l'authentification
   const checkAuth = async () => {
