@@ -6,6 +6,15 @@ import jwt from 'jsonwebtoken'
 import { cookies } from 'next/headers'
 import { prisma } from './prisma'
 
+// Validation des variables d'environnement critiques
+if (!process.env.JWT_SECRET) {
+  throw new Error('JWT_SECRET environment variable is required')
+}
+
+if (process.env.JWT_SECRET.length < 32) {
+  console.warn('⚠️ JWT_SECRET should be at least 32 characters long for security')
+}
+
 export async function hashPassword(password) {
   return await bcrypt.hash(password, 12)
 }
@@ -88,6 +97,33 @@ export async function withAuth(handler) {
       return Response.json({ error: 'Erreur serveur' }, { status: 500 })
     }
   }
+}
+
+// ✅ Gestion sécurisée des cookies JWT
+export async function setAuthCookie(token) {
+  const cookieStore = await cookies()
+  
+  cookieStore.set('auth-token', token, {
+    httpOnly: true,
+    secure: true, // Toujours HTTPS en prod
+    sameSite: 'strict',
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 jours
+    path: '/',
+    priority: 'high'
+  })
+}
+
+export async function clearAuthCookie() {
+  const cookieStore = await cookies()
+  
+  cookieStore.set('auth-token', '', {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'strict',
+    maxAge: 0,
+    path: '/',
+    expires: new Date(0)
+  })
 }
 
 export function hasPermission(user, section, action = 'read') {

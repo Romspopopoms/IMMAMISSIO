@@ -201,7 +201,7 @@ export default function ActualitesPage() {
       }
     }
     init()
-  }, [])
+  }, [checkAuth, fetchActualites])
 
   // Filtrer les actualités
   const filteredActualites = actualites.filter(actu => {

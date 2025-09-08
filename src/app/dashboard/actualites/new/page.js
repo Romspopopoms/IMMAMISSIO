@@ -95,7 +95,7 @@ export default function NewActualitePage() {
       }
     }
     init()
-  }, [])
+  }, [checkAuth])
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target

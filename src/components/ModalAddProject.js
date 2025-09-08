@@ -320,6 +320,7 @@ export default function ModalAddProject({
                   <label className="cursor-pointer block">
                     <div className="border-2 border-dashed border-gray-300 rounded-2xl p-12 text-center hover:border-orange-400 hover:bg-orange-50 transition-all duration-300 group">
                       <div className="w-20 h-20 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-orange-100 transition-colors">
+                        {/* eslint-disable-next-line jsx-a11y/alt-text */}
                         <Image className="w-10 h-10 text-gray-400 group-hover:text-orange-600" />
                       </div>
                       <h3 className="text-xl font-bold text-gray-900 mb-2">Ajouter une image</h3>

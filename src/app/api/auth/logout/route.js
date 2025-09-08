@@ -2,15 +2,12 @@
 // src/app/api/auth/logout/route.js - Logout sécurisé
 // ============================================================================
 import { NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
+import { clearAuthCookie } from '../../../../lib/auth'
 
 export async function POST(request) {
   try {
-    // ✅ Attendre le cookieStore
-    const cookieStore = await cookies()
-    
-    // ✅ Supprimer le cookie
-    cookieStore.delete('auth-token')
+    // ✅ Supprimer le cookie sécurisé
+    await clearAuthCookie()
 
     return NextResponse.json({ success: true })
   } catch (error) {

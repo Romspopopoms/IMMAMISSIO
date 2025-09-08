@@ -3,8 +3,7 @@
 // ============================================================================
 import { NextResponse } from 'next/server'
 import { prisma } from '../../../../lib/prisma'
-import { verifyPassword, generateToken } from '../../../../lib/auth'
-import { cookies } from 'next/headers'
+import { verifyPassword, generateToken, setAuthCookie } from '../../../../lib/auth'
 
 export async function POST(request) {
   try {
@@ -68,14 +67,7 @@ export async function POST(request) {
     const token = generateToken({ userId: user.id })
 
     // Stocker dans un cookie sécurisé
-    const cookieStore = await cookies()
-    cookieStore.set('auth-token', token, {
-      httpOnly: true,              // Pas accessible en JavaScript
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60,   // 7 jours
-      path: '/'
-    })
+    await setAuthCookie(token)
 
     // Préparer les données utilisateur (sans le password)
     const userData = {
