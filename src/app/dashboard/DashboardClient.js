@@ -243,27 +243,27 @@ export default function DashboardClient({ user, initialStats }) {
       <main className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         
         {/* Welcome Section */}
-        <div className="mb-8 sm:mb-12 text-center px-4">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-4 leading-tight">
+        <div className="mb-6 sm:mb-10 text-center px-4">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 mb-3 sm:mb-4 leading-tight">
             {greeting}, <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">{String(user.prenom || '')}</span> !
           </h1>
-          <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
             Gérez votre paroisse <strong>{String(user.paroisse?.nom || '')}</strong> depuis votre tableau de bord moderne et intuitif.
           </p>
         </div>
 
         {/* Success Message */}
         {user.paroisse && (
-          <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-3xl p-4 sm:p-6 lg:p-8 mb-8 sm:mb-12 shadow-lg mx-4 sm:mx-0">
+          <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl sm:rounded-3xl p-4 sm:p-6 mb-6 sm:mb-10 shadow-lg mx-4 sm:mx-0">
             <div className="flex flex-col sm:flex-row items-start">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-green-100 rounded-2xl flex items-center justify-center mb-4 sm:mb-0 sm:mr-6 flex-shrink-0 mx-auto sm:mx-0">
-                <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8 text-green-600" />
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-100 rounded-2xl flex items-center justify-center mb-3 sm:mb-0 sm:mr-4 flex-shrink-0 mx-auto sm:mx-0">
+                <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
               </div>
               <div className="flex-1 text-center sm:text-left">
-                <h3 className="text-xl sm:text-2xl font-bold text-green-900 mb-3">
+                <h3 className="text-lg sm:text-xl font-bold text-green-900 mb-2 sm:mb-3">
                   🎉 Votre paroisse est en ligne !
                 </h3>
-                <p className="text-green-800 mb-6 text-base sm:text-lg">
+                <p className="text-green-800 mb-4 sm:mb-6 text-sm sm:text-base">
                   Votre site <strong className="bg-green-200 px-2 py-1 rounded break-all sm:break-normal">{String(user.paroisse.subdomain)}.imamissio.com</strong> est maintenant accessible au public.
                 </p>
                 <div className="flex flex-col space-y-3 sm:space-y-0 sm:flex-row sm:space-x-4">
@@ -288,10 +288,10 @@ export default function DashboardClient({ user, initialStats }) {
         )}
 
         {/* Quick Actions */}
-        <div className="mb-8 sm:mb-12 px-4 sm:px-0">
+        <div className="mb-6 sm:mb-10 px-4 sm:px-0">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 sm:mb-8">
-            <div className="mb-4 sm:mb-0 text-center sm:text-left">
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Actions rapides</h2>
+            <div className="mb-3 sm:mb-0 text-center sm:text-left">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Actions rapides</h2>
               <p className="text-gray-600">Gérez votre paroisse en quelques clics</p>
             </div>
             <div className="hidden sm:flex items-center text-sm text-gray-500">
@@ -300,7 +300,7 @@ export default function DashboardClient({ user, initialStats }) {
             </div>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {quickActions.map((action, index) => {
               const IconComponent = action.icon
               return (
@@ -310,13 +310,13 @@ export default function DashboardClient({ user, initialStats }) {
                   target={action.external ? "_blank" : undefined}
                   className="group relative"
                 >
-                  <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden h-full">
+                  <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden h-full">
                     <div className={`absolute inset-0 bg-gradient-to-br ${action.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
                     <div className="relative z-10">
-                      <div className={`w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br ${action.gradient} rounded-2xl flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300 mx-auto sm:mx-0`}>
-                        <IconComponent className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                      <div className={`w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br ${action.gradient} rounded-2xl flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300 mx-auto sm:mx-0`}>
+                        <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                       </div>
-                      <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3 group-hover:text-blue-600 transition-colors text-center sm:text-left">
+                      <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors text-center sm:text-left">
                         {action.title}
                       </h3>
                       <p className="text-sm sm:text-base text-gray-600 mb-4 leading-relaxed text-center sm:text-left">
@@ -336,10 +336,10 @@ export default function DashboardClient({ user, initialStats }) {
         </div>
 
         {/* Stats */}
-        <div className="mb-8 sm:mb-12 px-4 sm:px-0">
+        <div className="mb-6 sm:mb-10 px-4 sm:px-0">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 sm:mb-8">
-            <div className="mb-4 sm:mb-0 text-center sm:text-left">
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Aperçu</h2>
+            <div className="mb-3 sm:mb-0 text-center sm:text-left">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Aperçu</h2>
               <p className="text-gray-600">Statistiques de votre paroisse</p>
             </div>
             <div className="hidden sm:flex items-center text-sm text-gray-500">
@@ -348,22 +348,22 @@ export default function DashboardClient({ user, initialStats }) {
             </div>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {statsData.map((stat, index) => {
               const IconComponent = stat.icon
               return (
-                <div key={index} className="group bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                  <div className="flex items-center justify-between mb-4 sm:mb-6">
-                    <div className={`w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br ${stat.gradient} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                      <IconComponent className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+                <div key={index} className="group bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                  <div className="flex items-center justify-between mb-3 sm:mb-4">
+                    <div className={`w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br ${stat.gradient} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                      <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                     </div>
                     <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 group-hover:text-green-500 transition-colors" />
                   </div>
-                  <div className="mb-4">
+                  <div className="mb-3">
                     <p className="text-xs sm:text-sm font-semibold text-gray-600 uppercase tracking-wider mb-2">
                       {stat.title}
                     </p>
-                    <p className="text-2xl sm:text-3xl font-black text-gray-900 group-hover:text-blue-600 transition-colors">
+                    <p className="text-xl sm:text-2xl font-black text-gray-900 group-hover:text-blue-600 transition-colors">
                       {stat.value}
                     </p>
                   </div>
@@ -377,18 +377,18 @@ export default function DashboardClient({ user, initialStats }) {
         </div>
 
         {/* Getting Started */}
-        <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 md:p-8 lg:p-12 mx-4 sm:mx-0">
-          <div className="text-center mb-8 sm:mb-12">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
-              <Star className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
+        <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 md:p-8 mx-4 sm:mx-0">
+          <div className="text-center mb-6 sm:mb-8">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4">
+              <Star className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Guide de démarrage</h2>
-            <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">Guide de démarrage</h2>
+            <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
               Suivez ces étapes pour configurer complètement votre site paroissial
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 lg:gap-6">
             {features.map((feature, index) => {
               const IconComponent = feature.icon
               const colors = {
@@ -405,12 +405,12 @@ export default function DashboardClient({ user, initialStats }) {
                   target={feature.external ? "_blank" : undefined}
                   className="group"
                 >
-                  <div className="flex flex-col sm:flex-row items-center sm:items-start p-4 sm:p-6 bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl hover:from-blue-50 hover:to-purple-50 transition-all duration-300 cursor-pointer transform hover:scale-105">
-                    <div className={`w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br ${colors[feature.color]} rounded-2xl flex items-center justify-center mb-4 sm:mb-0 sm:mr-6 flex-shrink-0 group-hover:scale-110 transition-transform`}>
-                      <IconComponent className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                  <div className="flex flex-col sm:flex-row items-center sm:items-start p-4 sm:p-5 bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl hover:from-blue-50 hover:to-purple-50 transition-all duration-300 cursor-pointer transform hover:scale-105">
+                    <div className={`w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br ${colors[feature.color]} rounded-2xl flex items-center justify-center mb-3 sm:mb-0 sm:mr-4 flex-shrink-0 group-hover:scale-110 transition-transform`}>
+                      <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                     </div>
                     <div className="flex-1 text-center sm:text-left">
-                      <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3 group-hover:text-blue-600 transition-colors">
+                      <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
                         {feature.title}
                       </h3>
                       <p className="text-sm sm:text-base text-gray-600 leading-relaxed mb-4">

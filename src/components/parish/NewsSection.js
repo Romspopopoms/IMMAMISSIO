@@ -11,23 +11,23 @@ export default function NewsSection({ paroisse, isEditMode, getValue, updateFiel
   }
 
   return (
-    <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
+    <section className="py-12 sm:py-16 bg-gradient-to-br from-gray-50 to-blue-50">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between mb-16">
+        <div className="flex items-center justify-between mb-8 sm:mb-12">
           <div>
             <span className="inline-flex items-center px-4 py-2 rounded-full bg-purple-100 text-purple-800 text-sm font-medium mb-4">
               <FileText className="w-4 h-4 mr-2" />
               À la une
             </span>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               <EditableText
                 value={getValue('newsTitle', 'Dernières actualités')}
                 onChange={(value) => updateField('newsTitle', value)}
                 isEditMode={isEditMode}
-                className="text-4xl md:text-5xl font-bold text-gray-900"
+                className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900"
               />
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-base sm:text-lg text-gray-600">
               Restez informé de la vie de notre communauté
             </p>
           </div>
@@ -42,10 +42,10 @@ export default function NewsSection({ paroisse, isEditMode, getValue, updateFiel
         
         <Carousel>
           {paroisse.actualites.slice(0, 6).map((actu) => (
-            <div key={actu.id} className="flex-shrink-0 w-80">
+            <div key={actu.id} className="flex-shrink-0 w-72 sm:w-80">
               <Link href={`/site/${paroisse.subdomain}/actualites/${actu.id}${isEditMode ? '?edit=true' : ''}`} className="block group">
-                <div className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden h-96">
-                  <div className="relative h-48 overflow-hidden">
+                <div className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden h-80 sm:h-90">
+                  <div className="relative h-40 sm:h-48 overflow-hidden">
                     <div 
                       className="absolute inset-0 bg-cover bg-center transform scale-105 group-hover:scale-110 transition-transform duration-700"
                       style={{ 
@@ -62,11 +62,11 @@ export default function NewsSection({ paroisse, isEditMode, getValue, updateFiel
                       </span>
                     </div>
                   </div>
-                  <div className="p-8">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-purple-600 transition-colors line-clamp-2">
+                  <div className="p-4 sm:p-6">
+                    <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3 group-hover:text-purple-600 transition-colors line-clamp-2">
                       {actu.titre}
                     </h3>
-                    <p className="text-gray-600 mb-6 line-clamp-3 leading-relaxed">
+                    <p className="text-sm sm:text-base text-gray-600 mb-4 line-clamp-2 leading-relaxed">
                       {actu.contenu?.substring(0, 120)}...
                     </p>
                     <div className="flex items-center text-purple-600 font-medium group-hover:text-purple-700 transition-colors">

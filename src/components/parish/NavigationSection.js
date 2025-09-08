@@ -51,46 +51,46 @@ export default function NavigationSection({ paroisse, isEditMode, getValue, upda
   ]
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-12 sm:py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="text-center mb-16">
+        <div className="text-center mb-8 sm:mb-12">
           <span className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-800 text-sm font-medium mb-4">
             <Star className="w-4 h-4 mr-2" />
             Navigation
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
             <EditableText
               value={getValue('navigationTitle', 'Explorez notre paroisse')}
               onChange={(value) => updateField('navigationTitle', value)}
               isEditMode={isEditMode}
-              className="text-4xl md:text-5xl font-bold text-gray-900"
+              className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900"
             />
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
             <EditableText
               value={getValue('navigationSubtitle', 'Découvrez toutes les facettes de notre communauté paroissiale')}
               onChange={(value) => updateField('navigationSubtitle', value)}
               isEditMode={isEditMode}
-              className="text-xl text-gray-600"
+              className="text-base sm:text-lg text-gray-600"
             />
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {navigationCards.map((card, index) => (
             <Link
               key={index}
               href={`${card.href}${isEditMode ? '?edit=true' : ''}`}
               className="group"
             >
-              <div className="relative bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden h-80">
+              <div className="relative bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden h-64 sm:h-72">
                 <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-90`}></div>
-                <div className="relative z-10 h-full flex flex-col items-center justify-center text-white p-8 text-center">
-                  <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <div className="relative z-10 h-full flex flex-col items-center justify-center text-white p-4 sm:p-6 text-center">
+                  <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                     {card.icon}
                   </div>
-                  <h3 className="text-2xl font-bold mb-4">{card.label}</h3>
-                  <p className="text-white/90 mb-6 leading-relaxed">{card.description}</p>
+                  <h3 className="text-xl font-bold mb-3">{card.label}</h3>
+                  <p className="text-white/90 mb-4 leading-relaxed text-sm">{card.description}</p>
                   <div className="flex items-center text-sm font-medium opacity-90 group-hover:opacity-100 transition-opacity">
                     <span>Découvrir</span>
                     <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
