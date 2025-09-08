@@ -184,46 +184,46 @@ export default function DashboardClient({ user, initialStats }) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       {/* Header */}
-      <header className="bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-200/50">
+      <header className="bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-200/50 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <Link href="/dashboard" className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <Link href="/dashboard" className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 ImaMissio
               </Link>
               {user.paroisse && (
-                <div className="ml-4 text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
+                <div className="ml-2 sm:ml-4 text-xs sm:text-sm text-gray-600 bg-gray-100 px-2 sm:px-3 py-1 rounded-full truncate max-w-32 sm:max-w-none">
                   {user.paroisse.nom}
                 </div>
               )}
             </div>
             
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 sm:space-x-4">
               {/* Bouton Édition directe */}
               <Link
                 href={`/site/${user.paroisse?.subdomain}?edit=true`}
-                className="flex items-center text-gray-600 hover:text-purple-600 transition-colors bg-purple-50 hover:bg-purple-100 px-3 py-2 rounded-xl"
+                className="flex items-center text-gray-600 hover:text-purple-600 transition-colors bg-purple-50 hover:bg-purple-100 px-2 sm:px-3 py-2 rounded-xl"
                 title="Éditer le site en direct"
               >
-                <Paintbrush className="w-4 h-4 mr-1" />
-                <span className="hidden md:inline">Éditer</span>
+                <Paintbrush className="w-4 h-4" />
+                <span className="hidden sm:inline ml-1">Éditer</span>
               </Link>
               
               {user.paroisse && (
                 <Link 
                   href={`/site/${user.paroisse.subdomain}`}
-                  className="flex items-center text-sm text-gray-600 hover:text-blue-600 transition-colors bg-blue-50 hover:bg-blue-100 px-3 py-2 rounded-xl"
+                  className="hidden sm:flex items-center text-sm text-gray-600 hover:text-blue-600 transition-colors bg-blue-50 hover:bg-blue-100 px-3 py-2 rounded-xl"
                 >
                   <ExternalLink className="w-4 h-4 mr-1" />
                   Voir le site
                 </Link>
               )}
               
-              <div className="flex items-center space-x-3 pl-4 border-l border-gray-200">
+              <div className="flex items-center space-x-2 sm:space-x-3 pl-2 sm:pl-4 border-l border-gray-200">
                 <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
                   {String(user.prenom?.charAt(0) || '')}{String(user.nom?.charAt(0) || '')}
                 </div>
-                <span className="text-sm text-gray-700 font-medium">
+                <span className="hidden sm:inline text-sm text-gray-700 font-medium">
                   {String(user.prenom || '')} {String(user.nom || '')}
                 </span>
                 <button
@@ -243,42 +243,42 @@ export default function DashboardClient({ user, initialStats }) {
       <main className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         
         {/* Welcome Section */}
-        <div className="mb-12 text-center">
-          <h1 className="text-5xl md:text-6xl font-black text-gray-900 mb-4">
+        <div className="mb-8 sm:mb-12 text-center px-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-4 leading-tight">
             {greeting}, <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">{String(user.prenom || '')}</span> !
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
             Gérez votre paroisse <strong>{String(user.paroisse?.nom || '')}</strong> depuis votre tableau de bord moderne et intuitif.
           </p>
         </div>
 
         {/* Success Message */}
         {user.paroisse && (
-          <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-3xl p-8 mb-12 shadow-lg">
-            <div className="flex items-start">
-              <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mr-6 flex-shrink-0">
-                <CheckCircle className="w-8 h-8 text-green-600" />
+          <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-3xl p-4 sm:p-6 lg:p-8 mb-8 sm:mb-12 shadow-lg mx-4 sm:mx-0">
+            <div className="flex flex-col sm:flex-row items-start">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-green-100 rounded-2xl flex items-center justify-center mb-4 sm:mb-0 sm:mr-6 flex-shrink-0 mx-auto sm:mx-0">
+                <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8 text-green-600" />
               </div>
-              <div className="flex-1">
-                <h3 className="text-2xl font-bold text-green-900 mb-3">
+              <div className="flex-1 text-center sm:text-left">
+                <h3 className="text-xl sm:text-2xl font-bold text-green-900 mb-3">
                   🎉 Votre paroisse est en ligne !
                 </h3>
-                <p className="text-green-800 mb-6 text-lg">
-                  Votre site <strong className="bg-green-200 px-2 py-1 rounded">{String(user.paroisse.subdomain)}.imamissio.com</strong> est maintenant accessible au public.
+                <p className="text-green-800 mb-6 text-base sm:text-lg">
+                  Votre site <strong className="bg-green-200 px-2 py-1 rounded break-all sm:break-normal">{String(user.paroisse.subdomain)}.imamissio.com</strong> est maintenant accessible au public.
                 </p>
-                <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                <div className="flex flex-col space-y-3 sm:space-y-0 sm:flex-row sm:space-x-4">
                   <Link 
                     href={`/site/${user.paroisse.subdomain}`}
-                    className="inline-flex items-center bg-green-600 text-white px-6 py-3 rounded-2xl hover:bg-green-700 transition-all font-semibold transform hover:scale-105 shadow-lg"
+                    className="inline-flex items-center justify-center bg-green-600 text-white px-4 sm:px-6 py-3 rounded-2xl hover:bg-green-700 transition-all font-semibold transform hover:scale-105 shadow-lg text-sm sm:text-base"
                   >
-                    <ExternalLink className="w-5 h-5 mr-2" />
+                    <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                     Visiter mon site
                   </Link>
                   <Link 
                     href={`/site/${user.paroisse.subdomain}?edit=true`}
-                    className="inline-flex items-center bg-white text-green-700 px-6 py-3 rounded-2xl border-2 border-green-300 hover:bg-green-50 transition-all font-semibold transform hover:scale-105"
+                    className="inline-flex items-center justify-center bg-white text-green-700 px-4 sm:px-6 py-3 rounded-2xl border-2 border-green-300 hover:bg-green-50 transition-all font-semibold transform hover:scale-105 text-sm sm:text-base"
                   >
-                    <Paintbrush className="w-5 h-5 mr-2" />
+                    <Paintbrush className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                     Éditer en direct
                   </Link>
                 </div>
@@ -288,19 +288,19 @@ export default function DashboardClient({ user, initialStats }) {
         )}
 
         {/* Quick Actions */}
-        <div className="mb-12">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">Actions rapides</h2>
+        <div className="mb-8 sm:mb-12 px-4 sm:px-0">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 sm:mb-8">
+            <div className="mb-4 sm:mb-0 text-center sm:text-left">
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Actions rapides</h2>
               <p className="text-gray-600">Gérez votre paroisse en quelques clics</p>
             </div>
-            <div className="flex items-center text-sm text-gray-500">
+            <div className="hidden sm:flex items-center text-sm text-gray-500">
               <Activity className="w-4 h-4 mr-2" />
               Tableau de bord
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {quickActions.map((action, index) => {
               const IconComponent = action.icon
               return (
@@ -310,19 +310,19 @@ export default function DashboardClient({ user, initialStats }) {
                   target={action.external ? "_blank" : undefined}
                   className="group relative"
                 >
-                  <div className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden h-full">
+                  <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden h-full">
                     <div className={`absolute inset-0 bg-gradient-to-br ${action.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
                     <div className="relative z-10">
-                      <div className={`w-16 h-16 bg-gradient-to-br ${action.gradient} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                        <IconComponent className="w-8 h-8 text-white" />
+                      <div className={`w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br ${action.gradient} rounded-2xl flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300 mx-auto sm:mx-0`}>
+                        <IconComponent className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                       </div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                      <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3 group-hover:text-blue-600 transition-colors text-center sm:text-left">
                         {action.title}
                       </h3>
-                      <p className="text-gray-600 mb-4 leading-relaxed">
+                      <p className="text-sm sm:text-base text-gray-600 mb-4 leading-relaxed text-center sm:text-left">
                         {action.description}
                       </p>
-                      <div className="flex items-center text-blue-600 font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="flex items-center justify-center sm:justify-start text-blue-600 font-medium opacity-0 group-hover:opacity-100 transition-opacity">
                         <span>Accéder</span>
                         <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                         {action.external && <ExternalLink className="w-4 h-4 ml-1" />}
@@ -336,38 +336,38 @@ export default function DashboardClient({ user, initialStats }) {
         </div>
 
         {/* Stats */}
-        <div className="mb-12">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">Aperçu</h2>
+        <div className="mb-8 sm:mb-12 px-4 sm:px-0">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 sm:mb-8">
+            <div className="mb-4 sm:mb-0 text-center sm:text-left">
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Aperçu</h2>
               <p className="text-gray-600">Statistiques de votre paroisse</p>
             </div>
-            <div className="flex items-center text-sm text-gray-500">
+            <div className="hidden sm:flex items-center text-sm text-gray-500">
               <BarChart3 className="w-4 h-4 mr-2" />
               Mis à jour maintenant
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {statsData.map((stat, index) => {
               const IconComponent = stat.icon
               return (
-                <div key={index} className="group bg-white rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                  <div className="flex items-center justify-between mb-6">
-                    <div className={`w-14 h-14 bg-gradient-to-br ${stat.gradient} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                      <IconComponent className="w-7 h-7 text-white" />
+                <div key={index} className="group bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                  <div className="flex items-center justify-between mb-4 sm:mb-6">
+                    <div className={`w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br ${stat.gradient} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                      <IconComponent className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                     </div>
-                    <TrendingUp className="w-5 h-5 text-gray-400 group-hover:text-green-500 transition-colors" />
+                    <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 group-hover:text-green-500 transition-colors" />
                   </div>
                   <div className="mb-4">
-                    <p className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-2">
+                    <p className="text-xs sm:text-sm font-semibold text-gray-600 uppercase tracking-wider mb-2">
                       {stat.title}
                     </p>
-                    <p className="text-3xl font-black text-gray-900 group-hover:text-blue-600 transition-colors">
+                    <p className="text-2xl sm:text-3xl font-black text-gray-900 group-hover:text-blue-600 transition-colors">
                       {stat.value}
                     </p>
                   </div>
-                  <p className="text-sm text-gray-500 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-gray-500 leading-relaxed">
                     {stat.change}
                   </p>
                 </div>
@@ -377,18 +377,18 @@ export default function DashboardClient({ user, initialStats }) {
         </div>
 
         {/* Getting Started */}
-        <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12">
-          <div className="text-center mb-12">
-            <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
-              <Star className="w-10 h-10 text-white" />
+        <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 md:p-8 lg:p-12 mx-4 sm:mx-0">
+          <div className="text-center mb-8 sm:mb-12">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
+              <Star className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
             </div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Guide de démarrage</h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Guide de démarrage</h2>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
               Suivez ces étapes pour configurer complètement votre site paroissial
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
             {features.map((feature, index) => {
               const IconComponent = feature.icon
               const colors = {
@@ -405,18 +405,18 @@ export default function DashboardClient({ user, initialStats }) {
                   target={feature.external ? "_blank" : undefined}
                   className="group"
                 >
-                  <div className="flex items-start p-6 bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl hover:from-blue-50 hover:to-purple-50 transition-all duration-300 cursor-pointer transform hover:scale-105">
-                    <div className={`w-16 h-16 bg-gradient-to-br ${colors[feature.color]} rounded-2xl flex items-center justify-center mr-6 flex-shrink-0 group-hover:scale-110 transition-transform`}>
-                      <IconComponent className="w-8 h-8 text-white" />
+                  <div className="flex flex-col sm:flex-row items-center sm:items-start p-4 sm:p-6 bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl hover:from-blue-50 hover:to-purple-50 transition-all duration-300 cursor-pointer transform hover:scale-105">
+                    <div className={`w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br ${colors[feature.color]} rounded-2xl flex items-center justify-center mb-4 sm:mb-0 sm:mr-6 flex-shrink-0 group-hover:scale-110 transition-transform`}>
+                      <IconComponent className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                     </div>
-                    <div className="flex-1">
-                      <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                    <div className="flex-1 text-center sm:text-left">
+                      <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3 group-hover:text-blue-600 transition-colors">
                         {feature.title}
                       </h3>
-                      <p className="text-gray-600 leading-relaxed mb-4">
+                      <p className="text-sm sm:text-base text-gray-600 leading-relaxed mb-4">
                         {feature.description}
                       </p>
-                      <div className="flex items-center text-blue-600 font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="flex items-center justify-center sm:justify-start text-blue-600 font-medium opacity-0 group-hover:opacity-100 transition-opacity">
                         <span>Commencer</span>
                         <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                         {feature.external && <ExternalLink className="w-4 h-4 ml-1" />}
