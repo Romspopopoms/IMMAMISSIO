@@ -68,13 +68,46 @@ export default function ContactSection({ paroisse, isEditMode, getValue, updateF
 
           <div className="relative">
             <div className="aspect-square bg-gradient-to-br from-blue-100 to-purple-100 rounded-3xl overflow-hidden shadow-2xl">
-              <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                <div className="text-center text-gray-500">
-                  <MapPin className="w-16 h-16 mx-auto mb-4" />
-                  <p>Carte à intégrer</p>
+              {/* Google Maps intégrée avec l'adresse de la paroisse */}
+              {paroisse.adresse && paroisse.ville ? (
+                <iframe
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0, borderRadius: '1.5rem' }}
+                  loading="lazy"
+                  allowFullScreen
+                  referrerPolicy="no-referrer-when-downgrade"
+                  src={`https://maps.google.com/maps?q=${encodeURIComponent(`${paroisse.adresse}, ${paroisse.codePostal || ''} ${paroisse.ville}`)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+                  title={`Localisation de ${paroisse.nom}`}
+                />
+              ) : (
+                // Fallback si pas d'adresse complète
+                <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                  <div className="text-center text-gray-500 p-8">
+                    <MapPin className="w-16 h-16 mx-auto mb-4" />
+                    <p className="text-lg font-medium mb-2">Localisation</p>
+                    <p className="text-sm">
+                      {paroisse.ville ? `${paroisse.ville}` : 'Adresse à configurer'}
+                    </p>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
+            
+            {/* Lien vers Google Maps externe */}
+            {paroisse.adresse && paroisse.ville && (
+              <div className="absolute bottom-4 right-4">
+                <a
+                  href={`https://maps.google.com/?q=${encodeURIComponent(`${paroisse.adresse}, ${paroisse.codePostal || ''} ${paroisse.ville}`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-white/90 backdrop-blur-sm hover:bg-white text-gray-900 p-3 rounded-full shadow-lg transition-all hover:shadow-xl transform hover:scale-105"
+                  title="Ouvrir dans Google Maps"
+                >
+                  <MapPin className="w-5 h-5" />
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </div>
